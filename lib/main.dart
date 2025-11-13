@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api.dart';
 import 'var.dart';
 import 'condition.dart';
 import 'boucle.dart';
 import 'list.dart';
 import 'fonction.dart';
 import 'package:logger/logger.dart';
+import 'api.dart';
+import 'produit.dart';
 
 var logger = Logger();
 
-void main() {
+void main() async {
   // logger.d("Message debug"); // debug
   // logger.i("Information"); // info
   // logger.w("Avertissement"); // warning
@@ -19,6 +22,18 @@ void main() {
   var boucle = Boucle();
   var list = ListClass();
   var fonction = Fonction();
+
+  //++++++ fetch api dummyJson ++++++
+
+  try {
+    List<Produit> produits = await fetchProduits();
+
+    for (var p in produits) {
+      logger.d('Id: ${p.id}, Title: ${p.title}, Price: ${p.price}');
+    }
+  } catch (e) {
+    logger.d('erreur: $e');
+  }
 
   //+++++ variable +++++
   // variable.sayHello();
@@ -50,9 +65,9 @@ void main() {
 
   //++++++fonction++++++
 
-  logger.i(fonction.saySentence("jean", "roger", 53));
-  logger.i(fonction.retourneChaine("BLALALALALALALALL"));
-  logger.i(fonction.deuxChaine("yyyoooooo", "je parle 2 fois"));
-  logger.i(fonction.deuxNombre(15, 15));
-  logger.i(fonction.sommmeTroisNombres(a: 5, b: 6, c: 8));
+  // logger.i(fonction.saySentence("jean", "roger", 53));
+  // logger.i(fonction.retourneChaine("BLALALALALALALALL"));
+  // logger.i(fonction.deuxChaine("yyyoooooo", "je parle 2 fois"));
+  // logger.i(fonction.deuxNombre(15, 15));
+  // logger.i(fonction.sommmeTroisNombres(a: 5, b: 6, c: 8));
 }
