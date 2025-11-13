@@ -8,6 +8,7 @@ import 'fonction.dart';
 import 'package:logger/logger.dart';
 import 'api.dart';
 import 'produit.dart';
+import 'user.dart';
 
 var logger = Logger();
 
@@ -25,7 +26,8 @@ void main() async {
 
   //++++++ fetch api dummyJson ++++++
 
-  ProductRepo.getAllProduct();
+  // ProductRepo.getAllProduct();
+  ProductRepo.getAllUser();
 
   //+++++ variable +++++
   // variable.sayHello();
