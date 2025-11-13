@@ -25,15 +25,7 @@ void main() async {
 
   //++++++ fetch api dummyJson ++++++
 
-  try {
-    List<Produit> produits = await fetchProduits();
-
-    for (var p in produits) {
-      logger.d('Id: ${p.id}, Title: ${p.title}, Price: ${p.price}');
-    }
-  } catch (e) {
-    logger.d('erreur: $e');
-  }
+  ProductRepo.getAllProduct();
 
   //+++++ variable +++++
   // variable.sayHello();

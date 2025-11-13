@@ -1,25 +1,30 @@
 import 'dart:convert';
+import 'package:flutter_application_1/produit.dart';
 import 'package:http/http.dart' as http;
-import 'produit.dart';
-import 'package:logger/logger.dart';
+import 'package:logger/web.dart';
 
-var logger = Logger();
+var log = Logger();
 
-Future<List<Produit>> fetchProduits() async {
-  final Uri endpoint = Uri.parse('https://dummyjson.com/products');
-  final res = await http.get(endpoint);
+class ProductRepo {
+  static getAllProduct() async {
+    try {
+      final Uri endpoint = Uri.parse('https://dummyjson.com/products');
 
-  if (res.statusCode == 200) {
-    final data = jsonDecode(res.body);
-    final List produitsJson = data['products'];
-    List<Produit> produits = [];
-    for (var json in produitsJson) {
-      produits.add(
-        Produit(id: json['id'], title: json['title'], price: json['price']),
-      );
+      final response = await http.get(endpoint);
+      final data = jsonDecode(response.body);
+
+      var products = [];
+
+      if (response.statusCode == 200) {
+        for (var product in data["products"]) {
+          products.add(
+            Product(product['id'], product['title'], product['price']),
+          );
+        }
+        products.forEach((product) => log.i({product.title, product.price}));
+      }
+    } catch (e) {
+      log.w("erreur serveur $e");
     }
-    return produits;
-  } else {
-    throw Exception('Erreur de status:${res.statusCode}');
   }
 }
