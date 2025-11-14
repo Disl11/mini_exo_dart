@@ -1,7 +1,15 @@
 class Product {
   final int id;
   final String title;
-  final num price;
+  final double price;
 
-  Product(this.id, this.title, this.price);
+  Product({required this.id, required this.title, required this.price});
+
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return Product(
+      id: json["id"],
+      title: json["title"],
+      price: (json["price"] as num).toDouble(),
+    );
+  }
 }

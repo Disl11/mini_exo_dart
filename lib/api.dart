@@ -8,46 +8,30 @@ var log = Logger();
 
 class ProductRepo {
   //Produit
-  static getAllProduct() async {
-    try {
-      final Uri endpoint = Uri.parse('https://dummyjson.com/products');
+  Future<List<Product>> getAllProduct() async {
+    final response = await http.get(
+      Uri.parse('https://dummyjson.com/products'),
+    );
 
-      final response = await http.get(endpoint);
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
-      var products = [];
-
-      if (response.statusCode == 200) {
-        for (var product in data["products"]) {
-          products.add(
-            Product(product['id'], product['title'], product['price']),
-          );
-        }
-        products.forEach((product) => log.i({product.title, product.price}));
-      }
-    } catch (e) {
-      log.w("erreur serveur $e");
+      final List productJson = data["products"];
+      return productJson.map((json) => Product.fromJson(json)).toList();
+    } else {
+      throw Exception("Erreur dans la récupération des produits");
     }
   }
 
   //User
-  static getAllUser() async {
-    try {
-      final Uri endpoint = Uri.parse('https://dummyjson.com/users');
+  Future<List<User>> getAllUser() async {
+    final response = await http.get(Uri.parse('https://dummyjson.com/users'));
 
-      final response = await http.get(endpoint);
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-
-      var users = [];
-
-      if (response.statusCode == 200) {
-        for (var user in data["users"]) {
-          users.add(User(user['id'], user['firstName'], user['lastName']));
-        }
-        users.forEach((user) => log.i({user.firstName, user.lastName}));
-      }
-    } catch (e) {
-      log.w("erreur serveur $e");
+      final List userJson = data['users'];
+      return userJson.map((json) => User.fromJson(json)).toList();
+    } else {
+      throw Exception("erreur serveur user");
     }
   }
 }

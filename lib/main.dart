@@ -26,8 +26,20 @@ void main() async {
 
   //++++++ fetch api dummyJson ++++++
 
-  // ProductRepo.getAllProduct();
-  ProductRepo.getAllUser();
+  final productRepo = ProductRepo();
+
+  print("===== PRODUITS =====");
+  final products = await productRepo.getAllProduct();
+  for (var product in products) {
+    print("${product.id} => ${product.title}  ${product.price}€");
+  }
+
+  print("========= User ==============");
+  final userRepo = ProductRepo();
+  final users = await userRepo.getAllUser();
+  for (var user in users) {
+    print("${user.id} => ${user.firstName}  ${user.lastName}");
+  }
 
   //+++++ variable +++++
   // variable.sayHello();
